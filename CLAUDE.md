@@ -97,6 +97,7 @@ GitHub Actions(`.github/workflows/sync-princess.yml`)가 한 시간마다 프린
 - 바로 돌리려면: GitHub의 Actions 탭 → ‘프린세스에서 책 가져오기’ → Run workflow. 또는 이 폴더에서 `node .github/sync-princess.mjs ../princess`.
 - 그래서 모임에서 읽은 책은 여기서 지워도 다시 들어온다. 프린세스 `READ`에 있는 책은 모두 여기에도 있어야 한다.
 - 자동 커밋이 생기므로 고치기 전에 꼭 `main`을 새로 받는다.
+- 이 저장소의 GitHub 기본 브랜치가 `main`이 아니라 `ccr-c580a168-w34z5g`로 되어 있다. 정해진 시각 실행은 기본 브랜치에 있는 워크플로 파일로 돌기 때문에, `.github/`를 고치면 그 브랜치에도 같이 올린다(`git push origin main main:ccr-c580a168-w34z5g`). 사용자가 기본 브랜치를 `main`으로 바꾸면 이 줄은 지운다.
 
 ## 표지 그림
 `assets/covers/번호.jpg`, 가로 200px JPEG. 화면 코드의 `COVER_IDS`에 번호가 있어야 보인다.
