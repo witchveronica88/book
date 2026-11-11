@@ -1,0 +1,33 @@
+# 프린세스(독서 모임 페이지)에서 읽은 책·모임에서 읽을 책을 한 시간마다 가져온다.
+# 바뀐 게 있을 때만 main에 올린다. Actions 탭에서 ‘Run workflow’로 바로 돌릴 수도 있다.
+# 정해진 시각 실행은 저장소 기본 브랜치에 있는 이 파일로 돌므로, 기본 브랜치와 상관없이 main을 받아 main에 올린다.
+name: 프린세스에서 책 가져오기
+
+on:
+  schedule:
+    - cron: '23 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency: sync-princess
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - run: git clone --depth 1 https://github.com/witchveronica88/princess "$RUNNER_TEMP/princess"
+      - name: 가져오기
+        run: |
+          msg=$(node .github/sync-princess.mjs "$RUNNER_TEMP/princess")
+          [ -z "$msg" ] && { echo '바뀐 것 없음'; exit 0; }
+          echo "$msg"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m "프린세스에서 가져옴: $msg"
+          git push origin HEAD:main
